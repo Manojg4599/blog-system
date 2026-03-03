@@ -4,17 +4,16 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 
-def send_email(name, message):
+def send_email(recipient, subject, message):
     EMAIL_USER = os.environ.get("EMAIL_USER")
     EMAIL_PASS = os.environ.get("EMAIL_PASS")
 
     msg = MIMEMultipart()
     msg["From"] = EMAIL_USER
-    msg["To"] = EMAIL_USER
-    msg["Subject"] = f"New Contact Form Message from {name}"
+    msg["To"] = recipient
+    msg["Subject"] = subject
 
-    body = f"Name: {name}\n\nMessage:\n{message}"
-    msg.attach(MIMEText(body, "plain"))
+    msg.attach(MIMEText(message, "plain"))
 
     try:
         server = smtplib.SMTP("smtp.gmail.com", 587)
