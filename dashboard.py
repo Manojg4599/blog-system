@@ -1,5 +1,6 @@
 from flask import Flask, render_template_string, request
 from email_sender import send_email
+import os
 
 app = Flask(__name__)
 
@@ -36,9 +37,16 @@ def home():
         subject = request.form["subject"]
         message = request.form["message"]
 
-        result = send_email(subject, message, recipient)
+        success = send_email(recipient, subject, message)
+
+        if success:
+            result = "Email Sent Successfully!"
+        else:
+            result = "Failed to Send Email."
 
     return render_template_string(HTML_FORM, result=result)
 
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
