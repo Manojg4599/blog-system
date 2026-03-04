@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from config import Config from flask import Flask, render_template
 import os
 from datetime import datetime, timedelta
 from config import Config
